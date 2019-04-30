@@ -3,26 +3,32 @@ import classes from './Person.css';
 import withClass from '../../../hoc/withClass';
 import Auxiliary from '../../../hoc/Auxiliary';
 import PropTypes from 'prop-types';
+import AuthContext from '../../../context/auth-context';
 
 class Person extends Component {
     constructor(props) {
-        super(props)
-        this.inputElement = React.createRef();
+        super(props);
+        this.inputElementRef = React.createRef();
     }
     componentDidMount() {
         //this.inputElement.focus()
-        this.inputElemenlt.current.focus();
+        this.inputElementRef.current.focus();
     }
     render() {
         console.log('[Person.js] rendering...');
         return (
-            <Auxiliary>
-                <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
+            <Auxiliary> {/* inlinux and Mac use <Aux></Aux> */}
+                <AuthContext.Consumer>
+                    {(context) => context.authenticated ? <p>Ahuthenticated!</p> : <p>Please Login</p>}
+                </AuthContext.Consumer>
+                <p onClick={this.props.click}>
+                    I'm {this.props.name} and I am {this.props.age} years old!
+                </p>
                 <p key="i2">{this.props.children}</p>
                 <input
                     key="i3"
                     // ref= {(inputEl) => {this.inputElement = inputEl}}
-                    ref = {this.inputElement}
+                    ref = {this.inputElementRef}
                     type="text"
                     onChange={this.props.changed}
                     value={this.props.name} />
